@@ -1,0 +1,19 @@
+{
+  "file": "drone_ortho.webp",
+  "leaflet_bounds": [
+    [
+      8.585914525682421,
+      99.99048684871822
+    ],
+    [
+      8.60302831899287,
+      100.01235991418478
+    ]
+  ],
+  "crs": "EPSG:32647",
+  "original_resolution_m": 0.0261,
+  "original_dimensions": [
+    92070,
+    72286
+  ]
+}

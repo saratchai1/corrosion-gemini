@@ -1,0 +1,336 @@
+{
+  "project": "nakhon-si-thammarat-mangrove-superres",
+  "province": "นครศรีธรรมราช",
+  "district": "เมือง/ท่าศาลา",
+  "subdistrict": "ท่าศาลา",
+  "model": "OpenSR LDSR-S2 Latent Diffusion",
+  "scale": 4,
+  "native_grid_m": 10.0,
+  "output_grid_m": 2.5,
+  "locations": [
+    {
+      "id": "22-vsd",
+      "label": "แปลง 22-VSD",
+      "lon": 100.00318,
+      "lat": 8.5936,
+      "area_rai": 300.64,
+      "date": "2023-04-06",
+      "scene_id": "S2A_47PPK_20230406_0_L2A",
+      "tile": "47PPK",
+      "crs": "EPSG:32647",
+      "original_rgb": "public/data/superres25/22-vsd-2023-04-06-10m.webp",
+      "superres_rgb": "public/data/superres25/22-vsd-2023-04-06-2p5m.webp",
+      "original_cir": "public/data/superres25/22-vsd-2023-04-06-cir-10m.webp",
+      "superres_cir": "public/data/superres25/22-vsd-2023-04-06-cir-2p5m.webp",
+      "original_ndvi": "public/data/superres25/22-vsd-2023-04-06-ndvi-10m.webp",
+      "superres_ndvi": "public/data/superres25/22-vsd-2023-04-06-ndvi-2p5m.webp",
+      "stats": {
+        "native_rgb_nonzero_fraction": 0.9999796549479166,
+        "native_mean_ndvi": 0.3163,
+        "sr_mean_ndvi": 0.3164,
+        "rgb_stretch_percentile_limits": [
+          [
+            40.0,
+            1918.0
+          ],
+          [
+            209.0,
+            1840.3400000000001
+          ],
+          [
+            1.0,
+            1516.0
+          ]
+        ]
+      }
+    },
+    {
+      "id": "23-vsd",
+      "label": "แปลง 23-VSD",
+      "lon": 100.00218,
+      "lat": 8.59597,
+      "area_rai": 200.12,
+      "date": "2023-04-06",
+      "scene_id": "S2A_47PPK_20230406_0_L2A",
+      "tile": "47PPK",
+      "crs": "EPSG:32647",
+      "original_rgb": "public/data/superres25/23-vsd-2023-04-06-10m.webp",
+      "superres_rgb": "public/data/superres25/23-vsd-2023-04-06-2p5m.webp",
+      "original_cir": "public/data/superres25/23-vsd-2023-04-06-cir-10m.webp",
+      "superres_cir": "public/data/superres25/23-vsd-2023-04-06-cir-2p5m.webp",
+      "original_ndvi": "public/data/superres25/23-vsd-2023-04-06-ndvi-10m.webp",
+      "superres_ndvi": "public/data/superres25/23-vsd-2023-04-06-ndvi-2p5m.webp",
+      "stats": {
+        "native_rgb_nonzero_fraction": 0.9999796549479166,
+        "native_mean_ndvi": 0.1908,
+        "sr_mean_ndvi": 0.1908,
+        "rgb_stretch_percentile_limits": [
+          [
+            43.0,
+            1904.0
+          ],
+          [
+            241.0,
+            1838.0
+          ],
+          [
+            1.0,
+            1516.0
+          ]
+        ]
+      }
+    },
+    {
+      "id": "combined-vsd",
+      "label": "ภาพรวมโครงการ 22-VSD & 23-VSD",
+      "lon": 100.00268,
+      "lat": 8.59478,
+      "area_rai": 500.76,
+      "date": "2023-04-06",
+      "scene_id": "S2A_47PPK_20230406_0_L2A",
+      "tile": "47PPK",
+      "crs": "EPSG:32647",
+      "original_rgb": "public/data/superres25/combined-vsd-2023-04-06-10m.webp",
+      "superres_rgb": "public/data/superres25/combined-vsd-2023-04-06-2p5m.webp",
+      "original_cir": "public/data/superres25/combined-vsd-2023-04-06-cir-10m.webp",
+      "superres_cir": "public/data/superres25/combined-vsd-2023-04-06-cir-2p5m.webp",
+      "original_ndvi": "public/data/superres25/combined-vsd-2023-04-06-ndvi-10m.webp",
+      "superres_ndvi": "public/data/superres25/combined-vsd-2023-04-06-ndvi-2p5m.webp",
+      "stats": {
+        "native_rgb_nonzero_fraction": 0.999969482421875,
+        "native_mean_ndvi": 0.2378,
+        "sr_mean_ndvi": 0.2376,
+        "rgb_stretch_percentile_limits": [
+          [
+            54.0,
+            1952.0
+          ],
+          [
+            215.0,
+            1830.0
+          ],
+          [
+            1.0,
+            1510.0
+          ]
+        ]
+      }
+    },
+    {
+      "id": "22-vsd",
+      "label": "แปลง 22-VSD",
+      "lon": 100.00318,
+      "lat": 8.5936,
+      "area_rai": 300.64,
+      "date": "2024-04-05",
+      "scene_id": "S2B_47PPK_20240405_0_L2A",
+      "tile": "47PPK",
+      "crs": "EPSG:32647",
+      "original_rgb": "public/data/superres25/22-vsd-2024-04-05-10m.webp",
+      "superres_rgb": "public/data/superres25/22-vsd-2024-04-05-2p5m.webp",
+      "original_cir": "public/data/superres25/22-vsd-2024-04-05-cir-10m.webp",
+      "superres_cir": "public/data/superres25/22-vsd-2024-04-05-cir-2p5m.webp",
+      "original_ndvi": "public/data/superres25/22-vsd-2024-04-05-ndvi-10m.webp",
+      "superres_ndvi": "public/data/superres25/22-vsd-2024-04-05-ndvi-2p5m.webp",
+      "stats": {
+        "native_rgb_nonzero_fraction": 1.0,
+        "native_mean_ndvi": 0.3586,
+        "sr_mean_ndvi": 0.3588,
+        "rgb_stretch_percentile_limits": [
+          [
+            182.0,
+            1962.0
+          ],
+          [
+            395.83000000000004,
+            1854.6800000000003
+          ],
+          [
+            228.0,
+            1636.3400000000001
+          ]
+        ]
+      }
+    },
+    {
+      "id": "23-vsd",
+      "label": "แปลง 23-VSD",
+      "lon": 100.00218,
+      "lat": 8.59597,
+      "area_rai": 200.12,
+      "date": "2024-04-05",
+      "scene_id": "S2B_47PPK_20240405_0_L2A",
+      "tile": "47PPK",
+      "crs": "EPSG:32647",
+      "original_rgb": "public/data/superres25/23-vsd-2024-04-05-10m.webp",
+      "superres_rgb": "public/data/superres25/23-vsd-2024-04-05-2p5m.webp",
+      "original_cir": "public/data/superres25/23-vsd-2024-04-05-cir-10m.webp",
+      "superres_cir": "public/data/superres25/23-vsd-2024-04-05-cir-2p5m.webp",
+      "original_ndvi": "public/data/superres25/23-vsd-2024-04-05-ndvi-10m.webp",
+      "superres_ndvi": "public/data/superres25/23-vsd-2024-04-05-ndvi-2p5m.webp",
+      "stats": {
+        "native_rgb_nonzero_fraction": 1.0,
+        "native_mean_ndvi": 0.2705,
+        "sr_mean_ndvi": 0.2706,
+        "rgb_stretch_percentile_limits": [
+          [
+            171.0,
+            1920.0
+          ],
+          [
+            396.0,
+            1792.0
+          ],
+          [
+            223.83,
+            1500.0
+          ]
+        ]
+      }
+    },
+    {
+      "id": "combined-vsd",
+      "label": "ภาพรวมโครงการ 22-VSD & 23-VSD",
+      "lon": 100.00268,
+      "lat": 8.59478,
+      "area_rai": 500.76,
+      "date": "2024-04-05",
+      "scene_id": "S2B_47PPK_20240405_0_L2A",
+      "tile": "47PPK",
+      "crs": "EPSG:32647",
+      "original_rgb": "public/data/superres25/combined-vsd-2024-04-05-10m.webp",
+      "superres_rgb": "public/data/superres25/combined-vsd-2024-04-05-2p5m.webp",
+      "original_cir": "public/data/superres25/combined-vsd-2024-04-05-cir-10m.webp",
+      "superres_cir": "public/data/superres25/combined-vsd-2024-04-05-cir-2p5m.webp",
+      "original_ndvi": "public/data/superres25/combined-vsd-2024-04-05-ndvi-10m.webp",
+      "superres_ndvi": "public/data/superres25/combined-vsd-2024-04-05-ndvi-2p5m.webp",
+      "stats": {
+        "native_rgb_nonzero_fraction": 1.0,
+        "native_mean_ndvi": 0.2737,
+        "sr_mean_ndvi": 0.2734,
+        "rgb_stretch_percentile_limits": [
+          [
+            148.0,
+            1898.0
+          ],
+          [
+            295.0,
+            1842.0
+          ],
+          [
+            199.0,
+            1588.0
+          ]
+        ]
+      }
+    },
+    {
+      "id": "22-vsd",
+      "label": "แปลง 22-VSD",
+      "lon": 100.00318,
+      "lat": 8.5936,
+      "area_rai": 300.64,
+      "date": "2026-04-05",
+      "scene_id": "S2B_47PPK_20260405_0_L2A",
+      "tile": "47PPK",
+      "crs": "EPSG:32647",
+      "original_rgb": "public/data/superres25/22-vsd-2026-04-05-10m.webp",
+      "superres_rgb": "public/data/superres25/22-vsd-2026-04-05-2p5m.webp",
+      "original_cir": "public/data/superres25/22-vsd-2026-04-05-cir-10m.webp",
+      "superres_cir": "public/data/superres25/22-vsd-2026-04-05-cir-2p5m.webp",
+      "original_ndvi": "public/data/superres25/22-vsd-2026-04-05-ndvi-10m.webp",
+      "superres_ndvi": "public/data/superres25/22-vsd-2026-04-05-ndvi-2p5m.webp",
+      "stats": {
+        "native_rgb_nonzero_fraction": 1.0,
+        "native_mean_ndvi": 0.6061,
+        "sr_mean_ndvi": 0.6065,
+        "rgb_stretch_percentile_limits": [
+          [
+            78.0,
+            2174.6800000000003
+          ],
+          [
+            251.0,
+            1951.0
+          ],
+          [
+            82.0,
+            1591.17
+          ]
+        ]
+      }
+    },
+    {
+      "id": "23-vsd",
+      "label": "แปลง 23-VSD",
+      "lon": 100.00218,
+      "lat": 8.59597,
+      "area_rai": 200.12,
+      "date": "2026-04-05",
+      "scene_id": "S2B_47PPK_20260405_0_L2A",
+      "tile": "47PPK",
+      "crs": "EPSG:32647",
+      "original_rgb": "public/data/superres25/23-vsd-2026-04-05-10m.webp",
+      "superres_rgb": "public/data/superres25/23-vsd-2026-04-05-2p5m.webp",
+      "original_cir": "public/data/superres25/23-vsd-2026-04-05-cir-10m.webp",
+      "superres_cir": "public/data/superres25/23-vsd-2026-04-05-cir-2p5m.webp",
+      "original_ndvi": "public/data/superres25/23-vsd-2026-04-05-ndvi-10m.webp",
+      "superres_ndvi": "public/data/superres25/23-vsd-2026-04-05-ndvi-2p5m.webp",
+      "stats": {
+        "native_rgb_nonzero_fraction": 1.0,
+        "native_mean_ndvi": 0.5351,
+        "sr_mean_ndvi": 0.5354,
+        "rgb_stretch_percentile_limits": [
+          [
+            83.0,
+            2146.0
+          ],
+          [
+            304.0,
+            1912.0
+          ],
+          [
+            89.0,
+            1544.17
+          ]
+        ]
+      }
+    },
+    {
+      "id": "combined-vsd",
+      "label": "ภาพรวมโครงการ 22-VSD & 23-VSD",
+      "lon": 100.00268,
+      "lat": 8.59478,
+      "area_rai": 500.76,
+      "date": "2026-04-05",
+      "scene_id": "S2B_47PPK_20260405_0_L2A",
+      "tile": "47PPK",
+      "crs": "EPSG:32647",
+      "original_rgb": "public/data/superres25/combined-vsd-2026-04-05-10m.webp",
+      "superres_rgb": "public/data/superres25/combined-vsd-2026-04-05-2p5m.webp",
+      "original_cir": "public/data/superres25/combined-vsd-2026-04-05-cir-10m.webp",
+      "superres_cir": "public/data/superres25/combined-vsd-2026-04-05-cir-2p5m.webp",
+      "original_ndvi": "public/data/superres25/combined-vsd-2026-04-05-ndvi-10m.webp",
+      "superres_ndvi": "public/data/superres25/combined-vsd-2026-04-05-ndvi-2p5m.webp",
+      "stats": {
+        "native_rgb_nonzero_fraction": 1.0,
+        "native_mean_ndvi": 0.4381,
+        "sr_mean_ndvi": 0.4375,
+        "rgb_stretch_percentile_limits": [
+          [
+            76.0,
+            2106.0
+          ],
+          [
+            248.0,
+            1918.0
+          ],
+          [
+            78.0,
+            1564.0
+          ]
+        ]
+      }
+    }
+  ]
+}

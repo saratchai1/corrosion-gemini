@@ -1,0 +1,56 @@
+name: nakhon-si-thammarat-superres
+collection: sentinel-2-l2a
+stac_api: https://earth-search.aws.element84.com/v1
+province: นครศรีธรรมราช
+target_mgrs: 47PPK
+bands:
+  - red
+  - green
+  - blue
+  - nir
+band_order_indices:
+  red: 1
+  green: 2
+  blue: 3
+  nir: 4
+scale: 4
+sampling_steps: 25
+patch_size: 128
+overlap: 16
+scale_factor: 10000.0
+output_grid_m: 2.5
+compute_uncertainty: false
+web_output: web/public/data/superres25
+
+plots:
+  - id: 22-vsd
+    label: แปลง 22-VSD
+    subdistrict: ท่าศาลา
+    district: เมือง/ท่าศาลา
+    province: นครศรีธรรมราช
+    area_rai: 300.64
+    land_type: พื้นที่เลนงอก
+    tver_type: MOC 1-VSD premium
+    company: VSD
+    planting_date_completed: "2023-05-29"
+    seedlings:
+      total: 213757
+      rhizophora_mucronata: 200000
+      rhizophora_apiculata: 10000
+      avicennia_alba: 3757
+      replanted_maintenance: 7104
+  - id: 23-vsd
+    label: แปลง 23-VSD
+    subdistrict: ท่าศาลา
+    district: เมือง/ท่าศาลา
+    province: นครศรีธรรมราช
+    area_rai: 200.12
+    land_type: พื้นที่เลนงอก
+    tver_type: MOC 1-VSD premium
+    company: VSD
+    planting_date_completed: "2023-05-29"
+    seedlings:
+      total: 142288
+      rhizophora_mucronata: 130000
+      rhizophora_apiculata: 10000
+      avicennia_alba: 2288

@@ -1,0 +1,124 @@
+/* Custom Styles for Sentinel-2 Super-Resolution Coastal WebApp */
+
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #070e17;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+/* Tab button active styling */
+.band-tab-btn.active {
+  background-color: #1e293b;
+  color: #f8fafc;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Swipe Viewer Frame and Interaction */
+/* Swipe Viewer Frame and Interaction */
+#swipeViewport {
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+  overflow: hidden;
+  position: relative;
+  cursor: default;
+}
+
+#sliderMapRight {
+  will-change: clip-path;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  contain: paint;
+}
+
+#dividerLine {
+  will-change: left;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  touch-action: none;
+  transition: none !important; /* Never animate position during drag */
+}
+
+/* Global state while dragging the slider */
+body.is-sliding {
+  cursor: ew-resize !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+}
+
+body.is-sliding * {
+  user-select: none !important;
+  -webkit-user-select: none !important;
+}
+
+/* Fullscreen Mode Styling */
+.fullscreen-viewer-mode {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 9999 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  max-height: 100vh !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  padding: 1rem !important;
+  background-color: #060d17 !important;
+}
+
+.fullscreen-viewer-mode #swipeViewport {
+  height: calc(100vh - 120px) !important;
+  max-height: calc(100vh - 120px) !important;
+  border-radius: 0.75rem !important;
+}
+
+/* Leaflet Map Customization for Dark Theme */
+.leaflet-container {
+  background-color: #0b1523 !important;
+  font-family: 'Prompt', sans-serif !important;
+}
+
+.leaflet-popup-content-wrapper {
+  background: #0f172a !important;
+  color: #f8fafc !important;
+  border-radius: 0.75rem !important;
+  border: 1px solid #334155 !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5) !important;
+}
+
+.leaflet-popup-tip {
+  background: #0f172a !important;
+  border: 1px solid #334155 !important;
+}
+
+.leaflet-popup-content {
+  margin: 12px 14px !important;
+  line-height: 1.4 !important;
+}
+
+/* SVG Plot Boundary Glow */
+.plot-boundary-path {
+  filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.9));
+  transition: stroke-width 0.2s ease, opacity 0.2s ease;
+}
+.plot-boundary-path:hover {
+  stroke-width: 4px;
+}

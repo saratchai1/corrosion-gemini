@@ -1,0 +1,100 @@
+{
+  "project_name": "โครงการปลูกป่าเพื่อประโยชน์จากคาร์บอนเครดิต",
+  "tver_type": "MOC 1-VSD Premium",
+  "province": "นครศรีธรรมราช",
+  "total_area_rai": 500.76,
+  "plots": [
+    {
+      "plot_id": "22-vsd",
+      "label": "แปลง 22-VSD",
+      "area_rai": 300.64,
+      "land_type": "พื้นที่เลนงอก",
+      "planting_finish_date": "2023-05-29",
+      "seedlings": [
+        {
+          "species_thai": "โกงกางใบใหญ่",
+          "species_sci": "Rhizophora mucronata",
+          "count": 200000,
+          "type": "ฝัก/ต้น"
+        },
+        {
+          "species_thai": "โกงกางใบเล็ก",
+          "species_sci": "Rhizophora apiculata",
+          "count": 10000,
+          "type": "ฝัก/ต้น"
+        },
+        {
+          "species_thai": "แสมขาว",
+          "species_sci": "Avicennia alba",
+          "count": 3757,
+          "type": "ฝัก/ต้น"
+        }
+      ],
+      "maintenance_replanting": [
+        {
+          "date": "2026-07-07",
+          "species_thai": "โกงกางใบใหญ่",
+          "count": 7104,
+          "type": "ฝัก"
+        },
+        {
+          "date": "2026-07-20",
+          "species_thai": "โกงกางใบใหญ่",
+          "count": 7104,
+          "type": "ฝัก"
+        }
+      ],
+      "total_planted_initial": 213757,
+      "centroid": {
+        "lat": 8.5936,
+        "lon": 100.00318
+      }
+    },
+    {
+      "plot_id": "23-vsd",
+      "label": "แปลง 23-VSD",
+      "area_rai": 200.12,
+      "land_type": "พื้นที่เลนงอก",
+      "planting_finish_date": "2023-05-29",
+      "seedlings": [
+        {
+          "species_thai": "โกงกางใบใหญ่",
+          "species_sci": "Rhizophora mucronata",
+          "count": 130000,
+          "type": "ฝัก/ต้น"
+        },
+        {
+          "species_thai": "โกงกางใบเล็ก",
+          "species_sci": "Rhizophora apiculata",
+          "count": 10000,
+          "type": "ฝัก/ต้น"
+        },
+        {
+          "species_thai": "แสมขาว",
+          "species_sci": "Avicennia alba",
+          "count": 2288,
+          "type": "ฝัก/ต้น"
+        }
+      ],
+      "maintenance_replanting": [],
+      "total_planted_initial": 142288,
+      "centroid": {
+        "lat": 8.59597,
+        "lon": 100.00218
+      }
+    }
+  ],
+  "summary": {
+    "grand_total_seedlings": 356045,
+    "species_breakdown": {
+      "โกงกางใบใหญ่": 330000,
+      "โกงกางใบเล็ก": 20000,
+      "แสมขาว": 6045
+    },
+    "species_percentage": {
+      "โกงกางใบใหญ่": 92.68,
+      "โกงกางใบเล็ก": 5.62,
+      "แสมขาว": 1.7
+    }
+  }
+}

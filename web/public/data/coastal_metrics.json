@@ -1,0 +1,508 @@
+{
+  "project": "Nakhon Si Thammarat Coastal Erosion & Accretion Analysis",
+  "methodology": "Tide-aware native Sentinel-2 analytical pipeline (SKILL: coastal-erosion-accretion)",
+  "sensor": "Sentinel-2 L2A (10m Native Analytical)",
+  "province": "นครศรีธรรมราช",
+  "subdistrict": "ท่าศาลา",
+  "plots": [
+    "22-VSD (300.64 ไร่)",
+    "23-VSD (200.12 ไร่)"
+  ],
+  "total_planting_area_rai": 500.76,
+  "planting_finish_date": "2023-05-29",
+  "epochs": {
+    "baseline": {
+      "date": "2023-04-06",
+      "role": "WATERLINE_BASELINE_PRE_COMPLETION",
+      "season": "Dry season (April)"
+    },
+    "monitoring_1": {
+      "date": "2024-04-05",
+      "role": "CONFIRMED_POST_COMPLETION_Y1",
+      "season": "Dry season (April)"
+    },
+    "monitoring_3": {
+      "date": "2026-04-05",
+      "role": "CONFIRMED_POST_COMPLETION_Y3",
+      "season": "Dry season (April)"
+    }
+  },
+  "transect_summary": {
+    "total_transects": 44,
+    "spacing_m": 50,
+    "mean_waterline_nsm_m": 121.82,
+    "mean_waterline_epr_m_yr": 40.61,
+    "mean_mangrove_edge_nsm_m": 635.45,
+    "mean_mangrove_edge_epr_m_yr": 211.82,
+    "max_seaward_advance_m": 280.0,
+    "dominant_regime": "APPARENT_ACCRETION_AND_MANGROVE_ADVANCE"
+  },
+  "area_change_rai": {
+    "apparent_mudflat_accretion_rai": 226.0,
+    "apparent_erosion_rai": 0.0,
+    "net_coastal_gain_rai": 226.0,
+    "mangrove_canopy_expansion_rai": 741.5
+  },
+  "uncertainty_budget_m": {
+    "u_grid": 10.0,
+    "u_coreg": 3.0,
+    "u_threshold": 4.0,
+    "u_total_rss": 11.18
+  },
+  "tide_management": {
+    "tide_aware": true,
+    "methodology": "Same-Season & Sun-Synchronous Local Solar Time Matching (Per SKILL Phase 4)",
+    "local_solar_overpass_time": "10:35 AM Local Solar Time (03:35 UTC)",
+    "calendar_season_window": "April 5-6 (Early dry season, matched phenology & wind setup)",
+    "slope_horizontal_correction": "Omitted per SKILL line 392 (Prohibits guessed slope on gentle intertidal mudflats to avoid error inflation)",
+    "ground_truth_control": "MANGROVE_EDGE_ADVANCE_PROXY (Woody canopy advance +635.45m confirms genuine biological accretion independent of hourly tide)"
+  },
+  "evidence_classification": {
+    "waterline_indicator": "APPARENT_SEAWARD_WATERLINE_CHANGE",
+    "mangrove_indicator": "MANGROVE_EDGE_ADVANCE_PROXY",
+    "coastal_status": "APPARENT_ACCRETION (Strong seaward advancement backed by root-trapped sediment deposition)",
+    "super_resolution_role": "Visual comparison only (Explicitly decoupled from quantitative metrics per SKILL rule #1)"
+  },
+  "transects": [
+    {
+      "id": "T_020",
+      "y_utm": 951275.0,
+      "waterline_nsm_m": 280.0,
+      "waterline_epr_m_yr": 93.33,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 610.0,
+      "mangrove_epr_m_yr": 203.33,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_025",
+      "y_utm": 951225.0,
+      "waterline_nsm_m": 210.0,
+      "waterline_epr_m_yr": 70.0,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 670.0,
+      "mangrove_epr_m_yr": 223.33,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_030",
+      "y_utm": 951175.0,
+      "waterline_nsm_m": 230.0,
+      "waterline_epr_m_yr": 76.67,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 700.0,
+      "mangrove_epr_m_yr": 233.33,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_035",
+      "y_utm": 951125.0,
+      "waterline_nsm_m": 240.0,
+      "waterline_epr_m_yr": 80.0,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 770.0,
+      "mangrove_epr_m_yr": 256.67,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_040",
+      "y_utm": 951075.0,
+      "waterline_nsm_m": 240.0,
+      "waterline_epr_m_yr": 80.0,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 820.0,
+      "mangrove_epr_m_yr": 273.33,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_045",
+      "y_utm": 951025.0,
+      "waterline_nsm_m": 230.0,
+      "waterline_epr_m_yr": 76.67,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 800.0,
+      "mangrove_epr_m_yr": 266.67,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_050",
+      "y_utm": 950975.0,
+      "waterline_nsm_m": 260.0,
+      "waterline_epr_m_yr": 86.67,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 830.0,
+      "mangrove_epr_m_yr": 276.67,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_055",
+      "y_utm": 950925.0,
+      "waterline_nsm_m": 270.0,
+      "waterline_epr_m_yr": 90.0,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 940.0,
+      "mangrove_epr_m_yr": 313.33,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_060",
+      "y_utm": 950875.0,
+      "waterline_nsm_m": 170.0,
+      "waterline_epr_m_yr": 56.67,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 910.0,
+      "mangrove_epr_m_yr": 303.33,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_065",
+      "y_utm": 950825.0,
+      "waterline_nsm_m": 190.0,
+      "waterline_epr_m_yr": 63.33,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 1060.0,
+      "mangrove_epr_m_yr": 353.33,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_070",
+      "y_utm": 950775.0,
+      "waterline_nsm_m": 110.0,
+      "waterline_epr_m_yr": 36.67,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 980.0,
+      "mangrove_epr_m_yr": 326.67,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_075",
+      "y_utm": 950725.0,
+      "waterline_nsm_m": 50.0,
+      "waterline_epr_m_yr": 16.67,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 1030.0,
+      "mangrove_epr_m_yr": 343.33,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_080",
+      "y_utm": 950675.0,
+      "waterline_nsm_m": 30.0,
+      "waterline_epr_m_yr": 10.0,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 1130.0,
+      "mangrove_epr_m_yr": 376.67,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_085",
+      "y_utm": 950625.0,
+      "waterline_nsm_m": 30.0,
+      "waterline_epr_m_yr": 10.0,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 1140.0,
+      "mangrove_epr_m_yr": 380.0,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_090",
+      "y_utm": 950575.0,
+      "waterline_nsm_m": 80.0,
+      "waterline_epr_m_yr": 26.67,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 1000.0,
+      "mangrove_epr_m_yr": 333.33,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_095",
+      "y_utm": 950525.0,
+      "waterline_nsm_m": 60.0,
+      "waterline_epr_m_yr": 20.0,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 920.0,
+      "mangrove_epr_m_yr": 306.67,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_100",
+      "y_utm": 950475.0,
+      "waterline_nsm_m": 80.0,
+      "waterline_epr_m_yr": 26.67,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 1000.0,
+      "mangrove_epr_m_yr": 333.33,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_105",
+      "y_utm": 950425.0,
+      "waterline_nsm_m": 70.0,
+      "waterline_epr_m_yr": 23.33,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 890.0,
+      "mangrove_epr_m_yr": 296.67,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_110",
+      "y_utm": 950375.0,
+      "waterline_nsm_m": 70.0,
+      "waterline_epr_m_yr": 23.33,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 760.0,
+      "mangrove_epr_m_yr": 253.33,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_115",
+      "y_utm": 950325.0,
+      "waterline_nsm_m": 70.0,
+      "waterline_epr_m_yr": 23.33,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 590.0,
+      "mangrove_epr_m_yr": 196.67,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_120",
+      "y_utm": 950275.0,
+      "waterline_nsm_m": 80.0,
+      "waterline_epr_m_yr": 26.67,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 670.0,
+      "mangrove_epr_m_yr": 223.33,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_125",
+      "y_utm": 950225.0,
+      "waterline_nsm_m": 140.0,
+      "waterline_epr_m_yr": 46.67,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 630.0,
+      "mangrove_epr_m_yr": 210.0,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_130",
+      "y_utm": 950175.0,
+      "waterline_nsm_m": 160.0,
+      "waterline_epr_m_yr": 53.33,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 540.0,
+      "mangrove_epr_m_yr": 180.0,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_135",
+      "y_utm": 950125.0,
+      "waterline_nsm_m": 130.0,
+      "waterline_epr_m_yr": 43.33,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 570.0,
+      "mangrove_epr_m_yr": 190.0,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_140",
+      "y_utm": 950075.0,
+      "waterline_nsm_m": 120.0,
+      "waterline_epr_m_yr": 40.0,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 370.0,
+      "mangrove_epr_m_yr": 123.33,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_145",
+      "y_utm": 950025.0,
+      "waterline_nsm_m": 150.0,
+      "waterline_epr_m_yr": 50.0,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 380.0,
+      "mangrove_epr_m_yr": 126.67,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_150",
+      "y_utm": 949975.0,
+      "waterline_nsm_m": 120.0,
+      "waterline_epr_m_yr": 40.0,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 540.0,
+      "mangrove_epr_m_yr": 180.0,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_155",
+      "y_utm": 949925.0,
+      "waterline_nsm_m": 120.0,
+      "waterline_epr_m_yr": 40.0,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 410.0,
+      "mangrove_epr_m_yr": 136.67,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_160",
+      "y_utm": 949875.0,
+      "waterline_nsm_m": 100.0,
+      "waterline_epr_m_yr": 33.33,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 430.0,
+      "mangrove_epr_m_yr": 143.33,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_165",
+      "y_utm": 949825.0,
+      "waterline_nsm_m": 120.0,
+      "waterline_epr_m_yr": 40.0,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 440.0,
+      "mangrove_epr_m_yr": 146.67,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_170",
+      "y_utm": 949775.0,
+      "waterline_nsm_m": 120.0,
+      "waterline_epr_m_yr": 40.0,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 430.0,
+      "mangrove_epr_m_yr": 143.33,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_175",
+      "y_utm": 949725.0,
+      "waterline_nsm_m": 80.0,
+      "waterline_epr_m_yr": 26.67,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 480.0,
+      "mangrove_epr_m_yr": 160.0,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_180",
+      "y_utm": 949675.0,
+      "waterline_nsm_m": 90.0,
+      "waterline_epr_m_yr": 30.0,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 500.0,
+      "mangrove_epr_m_yr": 166.67,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_185",
+      "y_utm": 949625.0,
+      "waterline_nsm_m": 90.0,
+      "waterline_epr_m_yr": 30.0,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 550.0,
+      "mangrove_epr_m_yr": 183.33,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_190",
+      "y_utm": 949575.0,
+      "waterline_nsm_m": 100.0,
+      "waterline_epr_m_yr": 33.33,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 580.0,
+      "mangrove_epr_m_yr": 193.33,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_195",
+      "y_utm": 949525.0,
+      "waterline_nsm_m": 110.0,
+      "waterline_epr_m_yr": 36.67,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 540.0,
+      "mangrove_epr_m_yr": 180.0,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_200",
+      "y_utm": 949475.0,
+      "waterline_nsm_m": 120.0,
+      "waterline_epr_m_yr": 40.0,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 550.0,
+      "mangrove_epr_m_yr": 183.33,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_205",
+      "y_utm": 949425.0,
+      "waterline_nsm_m": 160.0,
+      "waterline_epr_m_yr": 53.33,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 270.0,
+      "mangrove_epr_m_yr": 90.0,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_210",
+      "y_utm": 949375.0,
+      "waterline_nsm_m": 120.0,
+      "waterline_epr_m_yr": 40.0,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 480.0,
+      "mangrove_epr_m_yr": 160.0,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_215",
+      "y_utm": 949325.0,
+      "waterline_nsm_m": 90.0,
+      "waterline_epr_m_yr": 30.0,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 240.0,
+      "mangrove_epr_m_yr": 80.0,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_220",
+      "y_utm": 949275.0,
+      "waterline_nsm_m": 50.0,
+      "waterline_epr_m_yr": 16.67,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 250.0,
+      "mangrove_epr_m_yr": 83.33,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_225",
+      "y_utm": 949225.0,
+      "waterline_nsm_m": 20.0,
+      "waterline_epr_m_yr": 6.67,
+      "waterline_class": "APPARENT_SEAWARD_ACCRETION",
+      "mangrove_nsm_m": 260.0,
+      "mangrove_epr_m_yr": 86.67,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_230",
+      "y_utm": 949175.0,
+      "waterline_nsm_m": 0.0,
+      "waterline_epr_m_yr": 0.0,
+      "waterline_class": "WITHIN_UNCERTAINTY",
+      "mangrove_nsm_m": 160.0,
+      "mangrove_epr_m_yr": 53.33,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    },
+    {
+      "id": "T_235",
+      "y_utm": 949125.0,
+      "waterline_nsm_m": 0.0,
+      "waterline_epr_m_yr": 0.0,
+      "waterline_class": "WITHIN_UNCERTAINTY",
+      "mangrove_nsm_m": 140.0,
+      "mangrove_epr_m_yr": 46.67,
+      "mangrove_class": "MANGROVE_EDGE_ADVANCE_PROXY"
+    }
+  ]
+}

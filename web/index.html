@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ระบบติดตามการกัดเซาะชายฝั่งและดินเลนงอก จ.นครศรีธรรมราช | Sentinel-2 4x Super-Resolution & Coastal Analysis</title>
+  
+  <!-- Tailwind CSS & Fonts -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Leaflet CSS & JS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="src/styles.css">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Prompt', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            ocean: {
+              900: '#061325',
+              800: '#0b2344',
+              700: '#113563',
+              600: '#1b4b8a',
+              500: '#2b6cb0',
+              400: '#4299e1',
+            },
+            mangrove: {
+              900: '#062612',
+              800: '#0c3c1e',
+              700: '#15572d',
+              600: '#1e733c',
+              500: '#28934f',
+              400: '#38b764',
+              300: '#68d391',
+            },
+            accretion: '#10b981',
+            erosion: '#ef4444'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-[#070e17] text-slate-100 min-h-screen antialiased flex flex-col font-sans selection:bg-mangrove-500 selection:text-white">
+
+  <!-- Top Navigation Bar -->
+  <header class="sticky top-0 z-50 bg-[#0a1626]/90 backdrop-blur-md border-b border-slate-800/80 px-4 lg:px-8 py-3.5 transition-all">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center space-x-3.5">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-mangrove-600 to-cyan-500 flex items-center justify-center shadow-lg shadow-mangrove-900/40 text-white text-xl">
+          <i class="fa-solid fa-seedling"></i>
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <h1 class="text-base lg:text-lg font-bold tracking-tight text-white flex items-center gap-2">
+              นครศรีธรรมราช • การติดตามการกัดเซาะและดินงอก
+              <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-mangrove-500/20 text-mangrove-300 border border-mangrove-500/30">ป่าชายเลน T-VER</span>
+            </h1>
+          </div>
+          <p class="text-xs text-slate-400">แปลง 22-VSD & 23-VSD (500.76 ไร่) ต.ท่าศาลา | 4x Super-Resolution & Coastal Dynamics</p>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-2 text-xs">
+        <a href="#sliderSectionCard" class="px-3 py-1.5 rounded-lg bg-mangrove-600/80 hover:bg-mangrove-500 border border-mangrove-500/50 text-white transition-colors flex items-center gap-1.5 font-medium shadow-sm">
+          <i class="fa-solid fa-sliders"></i>
+          <span>Slider ก่อน-หลังปลูก</span>
+        </a>
+        <a href="#map-section" class="px-3 py-1.5 rounded-lg bg-ocean-800/80 hover:bg-ocean-700/80 border border-ocean-600/50 text-sky-200 transition-colors flex items-center gap-1.5">
+          <i class="fa-solid fa-map"></i>
+          <span>แผนที่ GIS</span>
+        </a>
+        <a href="#coastal-skill-section" class="px-3 py-1.5 rounded-lg bg-emerald-900/40 hover:bg-emerald-800/50 border border-emerald-600/50 text-emerald-200 transition-colors flex items-center gap-1.5">
+          <i class="fa-solid fa-water"></i>
+          <span>Coastal Dynamics</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="flex-1 max-w-7xl mx-auto w-full px-4 lg:px-8 py-6 space-y-6">
+
+    <!-- KPI Metric Cards Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <!-- Total Area -->
+      <div class="bg-slate-900/70 border border-slate-800/80 rounded-2xl p-4 shadow-xl relative overflow-hidden group hover:border-slate-700 transition">
+        <div class="absolute -right-2 -bottom-2 text-slate-800/20 text-6xl group-hover:scale-110 transition-transform"><i class="fa-solid fa-map-location-dot"></i></div>
+        <p class="text-xs font-medium text-slate-400">พื้นที่แปลงปลูกรวม (ตามสัญญา)</p>
+        <div class="flex items-baseline mt-1 space-x-1.5">
+          <span class="text-2xl lg:text-3xl font-bold text-white tracking-tight">500.76</span>
+          <span class="text-xs text-slate-400 font-medium">ไร่</span>
+        </div>
+        <p class="text-[11px] text-emerald-400 mt-2 flex items-center gap-1">
+          <i class="fa-solid fa-shield-check"></i> แปลง 22-VSD (300.64) + 23-VSD (200.12)
+        </p>
+      </div>
+
+      <!-- Seedlings Planted -->
+      <div class="bg-slate-900/70 border border-slate-800/80 rounded-2xl p-4 shadow-xl relative overflow-hidden group hover:border-slate-700 transition">
+        <div class="absolute -right-2 -bottom-2 text-slate-800/20 text-6xl group-hover:scale-110 transition-transform"><i class="fa-solid fa-tree"></i></div>
+        <p class="text-xs font-medium text-slate-400">จำนวนกล้าไม้ปลูกสะสม</p>
+        <div class="flex items-baseline mt-1 space-x-1.5">
+          <span class="text-2xl lg:text-3xl font-bold text-mangrove-300 tracking-tight">356,045</span>
+          <span class="text-xs text-slate-400 font-medium">ต้น/ฝัก</span>
+        </div>
+        <p class="text-[11px] text-slate-300 mt-2 flex items-center gap-1 truncate">
+          <i class="fa-solid fa-leaf text-mangrove-400"></i> โกงกางใหญ่ 92.7% • เล็ก 5.6% • แสม 1.7%
+        </p>
+      </div>
+
+      <!-- Net Mudflat Accretion Rate -->
+      <div class="bg-slate-900/70 border border-slate-800/80 rounded-2xl p-4 shadow-xl relative overflow-hidden group hover:border-slate-700 transition">
+        <div class="absolute -right-2 -bottom-2 text-slate-800/20 text-6xl group-hover:scale-110 transition-transform"><i class="fa-solid fa-water-ladder"></i></div>
+        <p class="text-xs font-medium text-slate-400">ดินเลนงอกสุทธิ (Apparent Accretion)</p>
+        <div class="flex items-baseline mt-1 space-x-1.5">
+          <span class="text-2xl lg:text-3xl font-bold text-accretion tracking-tight">+226.0</span>
+          <span class="text-xs text-slate-400 font-medium">ไร่</span>
+        </div>
+        <p class="text-[11px] text-emerald-400 mt-2 flex items-center gap-1">
+          <i class="fa-solid fa-arrow-trend-up"></i> รุกออกทะเลเฉลี่ย +40.61 ม./ปี
+        </p>
+      </div>
+
+      <!-- Mangrove Canopy Index -->
+      <div class="bg-slate-900/70 border border-slate-800/80 rounded-2xl p-4 shadow-xl relative overflow-hidden group hover:border-slate-700 transition">
+        <div class="absolute -right-2 -bottom-2 text-slate-800/20 text-6xl group-hover:scale-110 transition-transform"><i class="fa-solid fa-chart-line-up"></i></div>
+        <p class="text-xs font-medium text-slate-400">การขยายตัวเรือนยอดไม้ (NDVI &ge; 0.35)</p>
+        <div class="flex items-baseline mt-1 space-x-1.5">
+          <span class="text-2xl lg:text-3xl font-bold text-sky-300 tracking-tight">+741.5</span>
+          <span class="text-xs text-slate-400 font-medium">ไร่ (บริเวณโครงการ)</span>
+        </div>
+        <p class="text-[11px] text-sky-400 mt-2 flex items-center gap-1">
+          <i class="fa-solid fa-arrow-up"></i> Mean NDVI เพิ่มจาก 0.21 สู่ 0.58
+        </p>
+      </div>
+    </div>
+
+    <!-- HERO SECTION: Giant Fullscreen-Capable Swipe Slider with OpenStreetMap Background -->
+    <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 lg:p-6 shadow-2xl transition-all" id="sliderSectionCard">
+      
+      <!-- Header & Mode Selection Bar -->
+      <div class="flex flex-wrap items-center justify-between gap-3 pb-3.5 border-b border-slate-800">
+        <div>
+          <h2 class="text-base lg:text-lg font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-sliders text-mangrove-400"></i>
+            แถบเลื่อนเปรียบเทียบภาพดาวเทียม (Interactive Swipe Slider)
+            <span class="text-[11px] font-normal px-2.5 py-0.5 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-800/60 hidden sm:inline-flex items-center gap-1">
+              <i class="fa-solid fa-map"></i> พื้นหลัง OpenStreetMap • ภาพเต็มกรอบแปลง
+            </span>
+          </h2>
+          <p class="text-xs text-slate-400 mt-0.5">ลากเส้นกึ่งกลางเพื่อดูภาพก่อน-หลังปลูก | ภาพดาวเทียมครอบคลุมแปลงปลูกทั้งหมด 100% | หมุน Scroll Wheel เพื่อซูมเข้า/ออก</p>
+        </div>
+        
+        <!-- Toolbar Actions: Fullscreen & Mode Switcher -->
+        <div class="flex items-center gap-2">
+          <!-- Mode Tabs: Before vs After vs Resolution -->
+          <div class="inline-flex rounded-lg bg-slate-950 p-1 border border-slate-800 text-xs">
+            <button id="compareModeTemporalBtn" class="compare-mode-btn active px-3 py-1.5 rounded-md font-semibold transition text-white bg-mangrove-600 shadow-sm flex items-center gap-1.5">
+              <i class="fa-solid fa-clock-rotate-left"></i>
+              <span>เทียบก่อน - หลังปลูก</span>
+            </button>
+            <button id="compareModeResolutionBtn" class="compare-mode-btn px-3 py-1.5 rounded-md font-medium transition text-slate-400 hover:text-white flex items-center gap-1.5">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <span>เทียบความคมชัด (10m vs 2.5m)</span>
+            </button>
+          </div>
+
+          <!-- Fullscreen Toggle Button -->
+          <button id="fullscreenBtn" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white text-xs font-medium transition flex items-center gap-1.5 shadow-sm" title="Toggle Fullscreen">
+            <i class="fa-solid fa-expand text-mangrove-400"></i>
+            <span id="fullscreenBtnText">เต็มจอ</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Controls Toolbar Row: Plot, Dates, Bands, Basemap, Boundary & Zoom -->
+      <div class="flex flex-wrap items-center justify-between gap-3 mt-3.5 py-1">
+        
+        <!-- Left Group: Plot Selector & Date Dropdowns -->
+        <div class="flex flex-wrap items-center gap-2 text-xs">
+          <!-- Plot Selector -->
+          <div class="flex items-center space-x-1.5">
+            <span class="text-slate-400 font-medium">แปลง:</span>
+            <select id="plotSelector" class="bg-slate-800 border border-slate-700 text-xs rounded-lg px-2.5 py-1.5 text-slate-200 focus:ring-1 focus:ring-mangrove-500 focus:outline-none font-medium">
+              <option value="combined-vsd">ภาพรวม 22 & 23-VSD (500 ไร่)</option>
+              <option value="22-vsd">แปลง 22-VSD (300.64 ไร่)</option>
+              <option value="23-vsd">แปลง 23-VSD (200.12 ไร่)</option>
+              <option value="drone-area">🛸 ขอบเขตภาพถ่ายโดรน (UAV)</option>
+            </select>
+          </div>
+
+          <!-- Temporal Mode Date Controls -->
+          <div id="temporalControls" class="flex items-center space-x-2">
+            <div class="flex items-center space-x-1">
+              <span class="text-amber-400 font-semibold text-[11px]">ฝั่งซ้าย:</span>
+              <select id="leftDateSelector" class="bg-slate-800 border border-slate-700 text-xs rounded-lg px-2 py-1 text-slate-200 focus:ring-1 focus:ring-amber-400 focus:outline-none">
+                <option value="2023-04-06" selected>เม.ย. 2566 (ก่อนปลูก - Baseline)</option>
+                <option value="2024-04-05">เม.ย. 2567 (1 ปีหลังปลูก)</option>
+                <option value="2026-04-05">เม.ย. 2569 (3 ปี - ปัจจุบัน)</option>
+              </select>
+            </div>
+            <span class="text-slate-500 font-bold">vs</span>
+            <div class="flex items-center space-x-1">
+              <span class="text-emerald-400 font-semibold text-[11px]">ฝั่งขวา:</span>
+              <select id="rightDateSelector" class="bg-slate-800 border border-slate-700 text-xs rounded-lg px-2 py-1 text-slate-200 focus:ring-1 focus:ring-emerald-400 focus:outline-none font-medium">
+                <option value="drone-ortho" selected>🛸 ภาพถ่ายโดรนความละเอียดสูง (UAV 2.6cm)</option>
+                <option value="2026-04-05">เม.ย. 2569 (3 ปี - ปัจจุบัน)</option>
+                <option value="2024-04-05">เม.ย. 2567 (1 ปีหลังปลูก)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Resolution Mode Date Controls -->
+          <div id="resolutionControls" class="hidden items-center space-x-1.5">
+            <span class="text-slate-400 font-medium">ช่วงเวลา:</span>
+            <select id="singleDateSelector" class="bg-slate-800 border border-slate-700 text-xs rounded-lg px-2.5 py-1.5 text-slate-200 focus:ring-1 focus:ring-mangrove-500 focus:outline-none font-medium">
+              <option value="2026-04-05">ปี 2569 (3 ปีหลังปลูก - ปัจจุบัน)</option>
+              <option value="2024-04-05">ปี 2567 (1 ปีหลังปลูก)</option>
+              <option value="2023-04-06">ปี 2566 (ก่อนเริ่มปลูก - Baseline)</option>
+              <option value="drone-ortho">🛸 ภาพถ่ายโดรนความละเอียดสูง (UAV 2.6cm)</option>
+            </select>
+          </div>
+
+          <!-- Quality Toggle in Temporal Mode -->
+          <div id="temporalQualityControls" class="flex items-center space-x-1">
+            <span class="text-slate-400 text-[11px]">ความคมชัด:</span>
+            <select id="temporalQualitySelector" class="bg-slate-800 border border-slate-700 text-xs rounded-lg px-2 py-1 text-slate-200 focus:ring-1 focus:ring-mangrove-500 focus:outline-none">
+              <option value="2p5m" selected>คมชัด 4x Super-Res (2.5m)</option>
+              <option value="10m">ดาวเทียมเดิม Native (10m)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Right Group: Basemap, Bands, Plot Boundary, Zoom Controls -->
+        <div class="flex flex-wrap items-center gap-2 text-xs">
+          <!-- Basemap Switcher (OpenStreetMap vs Satellite) -->
+          <div class="inline-flex rounded-lg bg-slate-800/80 p-0.5 border border-slate-700">
+            <button id="basemapOsmBtn" class="basemap-tab-btn active px-2.5 py-1 rounded-md transition font-medium text-white bg-slate-700">
+              <i class="fa-solid fa-map mr-1 text-emerald-400"></i> OpenStreetMap
+            </button>
+            <button id="basemapSatBtn" class="basemap-tab-btn px-2.5 py-1 rounded-md transition text-slate-400 hover:text-white">
+              <i class="fa-solid fa-earth-americas mr-1 text-sky-400"></i> ภาพดาวเทียม
+            </button>
+          </div>
+
+          <!-- Band Mode Switcher -->
+          <div class="inline-flex rounded-lg bg-slate-800/80 p-0.5 border border-slate-700">
+            <button class="band-tab-btn active px-2.5 py-1 rounded-md transition font-medium" data-mode="rgb">
+              <i class="fa-solid fa-palette mr-1 text-sky-400"></i> True Color
+            </button>
+            <button class="band-tab-btn px-2.5 py-1 rounded-md transition text-slate-400 hover:text-white" data-mode="cir">
+              <i class="fa-solid fa-satellite mr-1 text-red-400"></i> CIR
+            </button>
+            <button class="band-tab-btn px-2.5 py-1 rounded-md transition text-slate-400 hover:text-white" data-mode="ndvi">
+              <i class="fa-solid fa-leaf mr-1 text-emerald-400"></i> NDVI
+            </button>
+          </div>
+
+          <!-- Plot Boundary Toggle Button -->
+          <button id="toggleBoundaryBtn" class="px-2.5 py-1 rounded-lg bg-emerald-950/80 hover:bg-emerald-900/80 border border-emerald-700/60 text-emerald-300 font-medium transition flex items-center gap-1.5">
+            <i class="fa-solid fa-vector-square text-emerald-400"></i>
+            <span id="boundaryBtnText">กรอบแปลง: เปิด</span>
+          </button>
+
+          <!-- Zoom / Reset Controls -->
+          <div class="flex items-center space-x-1 bg-slate-800/80 p-0.5 rounded-lg border border-slate-700">
+            <button id="zoomOutBtn" class="p-1.5 rounded-md hover:bg-slate-700 text-slate-300 text-xs" title="Zoom Out"><i class="fa-solid fa-minus"></i></button>
+            <button id="zoomInBtn" class="p-1.5 rounded-md hover:bg-slate-700 text-slate-300 text-xs" title="Zoom In"><i class="fa-solid fa-plus"></i></button>
+            <button id="zoomResetBtn" class="p-1.5 rounded-md hover:bg-slate-700 text-slate-300 text-xs" title="Reset Zoom / Fit Bounds"><i class="fa-solid fa-crosshairs"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- The Giant Interactive Swipe Viewport with Dual Synced Maps -->
+      <div class="relative w-full h-[66vh] min-h-[540px] max-h-[840px] rounded-2xl overflow-hidden mt-3 border border-slate-800 select-none shadow-2xl bg-slate-950" id="swipeViewport">
+        
+        <!-- Left Map Container (2023 / Before Planting) -->
+        <div id="sliderMapLeft" class="absolute inset-0 w-full h-full z-0"></div>
+
+        <!-- Right Map Container (2026 / After Planting) with CSS clipPath -->
+        <div id="sliderMapRight" class="absolute inset-0 w-full h-full z-10 pointer-events-none" style="clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);"></div>
+
+        <!-- Vertical Divider Slider Bar with Generous 44px Hitbox -->
+        <div class="absolute top-0 bottom-0 w-11 -ml-[22px] z-30 cursor-ew-resize flex items-center justify-center group select-none touch-none" id="dividerLine" style="left: 50%;">
+          <!-- Visible 2px Divider Line -->
+          <div class="w-0.5 h-full bg-white shadow-[0_0_14px_rgba(255,255,255,0.9)] group-hover:bg-emerald-400 group-active:bg-emerald-300 transition-colors pointer-events-none"></div>
+          <!-- Center Grab Handle Puck -->
+          <div class="absolute top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-950 border-2 border-white shadow-2xl flex items-center justify-center text-white text-xs group-hover:border-emerald-400 group-hover:scale-110 group-active:scale-95 transition-transform backdrop-blur-md pointer-events-none">
+            <i class="fa-solid fa-arrows-left-right text-[11px] text-emerald-400"></i>
+          </div>
+        </div>
+
+        <!-- Badges Overlay (Left & Right) -->
+        <div id="leftBadge" class="absolute top-4 left-4 z-20 bg-slate-950/85 backdrop-blur-md px-3 py-1.5 rounded-lg border border-slate-700/60 text-xs font-medium text-slate-200 shadow-xl flex items-center gap-2 pointer-events-none">
+          <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
+          <span id="leftBadgeText">ก่อนเริ่มปลูก (เม.ย. 2566)</span>
+        </div>
+        <div id="rightBadge" class="absolute top-4 right-4 z-20 bg-slate-950/85 backdrop-blur-md px-3 py-1.5 rounded-lg border border-slate-700/60 text-xs font-medium text-slate-200 shadow-xl flex items-center gap-2 pointer-events-none">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span id="rightBadgeText">หลังปลูก 3 ปี (เม.ย. 2569)</span>
+        </div>
+
+        <!-- Floating Plot Legend Inside Viewport -->
+        <div id="viewportPlotLegend" class="absolute top-16 left-4 z-20 bg-slate-950/85 backdrop-blur-md p-2.5 rounded-xl border border-slate-800 text-[11px] space-y-1.5 text-slate-300 shadow-xl pointer-events-none">
+          <div class="flex items-center gap-2">
+            <span class="w-3.5 h-1 border-t-2 border-dashed border-[#10b981]"></span>
+            <span class="font-medium text-emerald-300">แปลง 22-VSD (300.64 ไร่)</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="w-3.5 h-1 border-t-2 border-dashed border-[#38bdf8]"></span>
+            <span class="font-medium text-sky-300">แปลง 23-VSD (200.12 ไร่)</span>
+          </div>
+        </div>
+
+        <!-- Viewport Instructions Tip -->
+        <div class="absolute bottom-4 left-4 z-20 hidden sm:flex items-center gap-2 text-[11px] text-slate-300 bg-slate-950/80 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-slate-800 pointer-events-none shadow-md">
+          <i class="fa-solid fa-map-location-dot text-mangrove-400"></i>
+          <span>พื้นหลัง OpenStreetMap • หมุน Scroll Mouse = ซูมเข้า/ออก • ลากเมาส์ = แพนภาพ • ลากเส้นกึ่งกลาง = เลื่อนเปรียบเทียบ</span>
+        </div>
+
+        <!-- Footer Metadata in viewer -->
+        <div class="absolute bottom-4 right-4 z-20 flex items-center gap-3 text-[11px] text-slate-400 bg-slate-950/80 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-slate-800 pointer-events-none shadow-md">
+          <span id="currentSceneTag" class="font-mono truncate">โหมด: เทียบก่อน-หลังปลูก</span>
+          <span id="currentStretchTag">Linear Stretch 1%-99%</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Middle Section: Interactive GIS Map (Left) & Temporal Analytics Chart (Right) -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6" id="map-section">
+
+      <!-- Interactive GIS Map (7 cols) -->
+      <div class="lg:col-span-7 bg-slate-900/80 border border-slate-800 rounded-2xl p-5 flex flex-col shadow-2xl">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+          <div>
+            <h2 class="text-sm lg:text-base font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-map text-sky-400"></i>
+              แผนที่เชิงพื้นที่ ต.ท่าศาลา จ.นครศรีธรรมราช (GIS Map)
+            </h2>
+            <p class="text-xs text-slate-400">แสดงขอบเขตแปลง 22-VSD & 23-VSD บนภาพดาวเทียมความละเอียดสูง และแนวตัด Transects 44 เส้น</p>
+          </div>
+          
+          <div class="flex items-center space-x-1.5">
+            <button id="toggleBottomDroneBtn" class="px-2.5 py-1.5 rounded-lg bg-sky-950/80 hover:bg-sky-900/80 text-xs text-sky-300 border border-sky-500/50 transition flex items-center gap-1">
+              <i class="fa-solid fa-helicopter text-sky-400"></i>
+              <span id="bottomDroneBtnText">ภาพโดรน: เปิด</span>
+            </button>
+            <button id="toggleTransectsBtn" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs text-emerald-300 border border-emerald-500/40 transition flex items-center gap-1">
+              <i class="fa-solid fa-ruler-horizontal"></i>
+              <span>Transects</span>
+            </button>
+            <button id="recenterMapBtn" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs text-slate-200 border border-slate-700 transition flex items-center gap-1" title="Recenter to plots">
+              <i class="fa-solid fa-crosshairs"></i>
+              <span>โฟกัส</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Leaflet Map Container -->
+        <div class="w-full h-80 rounded-xl mt-4 overflow-hidden border border-slate-800 relative z-0" id="mapView"></div>
+
+        <!-- Map Legend -->
+        <div class="grid grid-cols-3 gap-2.5 mt-3.5 text-xs">
+          <div class="flex items-center space-x-2.5 bg-slate-950/60 p-2.5 rounded-xl border border-slate-800">
+            <span class="w-4 h-4 rounded border border-emerald-400 bg-emerald-500/30 flex-shrink-0"></span>
+            <div>
+              <p class="font-semibold text-white text-[11px]">แปลง 22-VSD</p>
+              <p class="text-[10px] text-slate-400">300.64 ไร่ (พื้นที่เลนงอก)</p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-2.5 bg-slate-950/60 p-2.5 rounded-xl border border-slate-800">
+            <span class="w-4 h-4 rounded border border-sky-400 bg-sky-500/30 flex-shrink-0"></span>
+            <div>
+              <p class="font-semibold text-white text-[11px]">แปลง 23-VSD</p>
+              <p class="text-[10px] text-slate-400">200.12 ไร่ (พื้นที่เลนงอก)</p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-2.5 bg-slate-950/60 p-2.5 rounded-xl border border-slate-800">
+            <span class="w-4 h-1.5 rounded bg-emerald-400 flex-shrink-0"></span>
+            <div>
+              <p class="font-semibold text-white text-[11px]">แนว Transects (44 เส้น)</p>
+              <p class="text-[10px] text-emerald-400">งอกรุกออกทะเลเฉลี่ย +40.6 ม./ปี</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Temporal Accretion / Erosion Analytics Chart (5 cols) -->
+      <div class="lg:col-span-5 bg-slate-900/80 border border-slate-800 rounded-2xl p-5 flex flex-col shadow-2xl">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+          <div>
+            <h3 class="text-sm lg:text-base font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-chart-area text-accretion"></i>
+              แนวโน้มการขยายตัวดินเลนงอกและพืชพรรณ (2566 - 2569)
+            </h3>
+            <p class="text-xs text-slate-400">เปรียบเทียบฤดูแล้งเดือนเดียวกัน (เมษายน) เพื่อตัดความแปรปรวนฤดูกาล</p>
+          </div>
+        </div>
+
+        <!-- Chart Canvas -->
+        <div class="w-full h-80 mt-4 relative">
+          <canvas id="temporalChart"></canvas>
+        </div>
+
+        <div class="mt-3 pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs">
+          <span class="text-slate-400">อัตราเฉลี่ยรุกออกทะเล: <strong class="text-emerald-400">+40.61 ม./ปี (EPR)</strong></span>
+          <span class="text-mangrove-400 font-medium">ความเสี่ยงกัดเซาะ: 0% (ไม่มีการกัดเซาะ)</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Quantitative Coastal Dynamics Section -->
+    <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-2xl space-y-4" id="coastal-skill-section">
+      <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-800">
+        <div>
+          <h3 class="text-sm lg:text-base font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-water text-sky-400"></i>
+            การวิเคราะห์การกัดเซาะและดินเลนงอกเชิงปริมาณ (Coastal Erosion & Accretion Skill)
+          </h3>
+          <p class="text-xs text-slate-400">คำนวณจากข้อมูลดาวเทียมจริงระดับ Native Analytical Sentinel-2 10m ด้วยระเบียบวิธี DSAS-like Transect Analysis</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-xs bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 px-3 py-1 rounded-full font-medium">
+            <i class="fa-solid fa-circle-check mr-1"></i> Dominant Regime: Apparent Accretion & Mangrove Advance
+          </span>
+        </div>
+      </div>
+
+      <!-- Analysis Metrics Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-3">
+        <div class="bg-slate-950/60 p-3.5 rounded-xl border border-slate-800">
+          <p class="text-[11px] text-slate-400">ระยะ Waterline รุกทะเล (NSM)</p>
+          <p class="text-xl font-bold text-emerald-400 mt-1">+121.82 <span class="text-xs text-slate-400 font-normal">เมตร</span></p>
+          <p class="text-[10px] text-slate-400 mt-1">สูงสุด +280.0 ม. (3 ปี)</p>
+        </div>
+
+        <div class="bg-slate-950/60 p-3.5 rounded-xl border border-slate-800">
+          <p class="text-[11px] text-slate-400">อัตรา Waterline รุกทะเล (EPR)</p>
+          <p class="text-xl font-bold text-emerald-400 mt-1">+40.61 <span class="text-xs text-slate-400 font-normal">ม./ปี</span></p>
+          <p class="text-[10px] text-slate-400 mt-1">End Point Rate 2023-2026</p>
+        </div>
+
+        <div class="bg-slate-950/60 p-3.5 rounded-xl border border-slate-800">
+          <p class="text-[11px] text-slate-400">การขยับของแนวป่าชายเลน</p>
+          <p class="text-xl font-bold text-sky-400 mt-1">+635.45 <span class="text-xs text-slate-400 font-normal">เมตร</span></p>
+          <p class="text-[10px] text-slate-400 mt-1">Mangrove Edge Advance Proxy</p>
+        </div>
+
+        <div class="bg-slate-950/60 p-3.5 rounded-xl border border-slate-800">
+          <p class="text-[11px] text-slate-400">ดินเลนงอกสุทธิ (Area Change)</p>
+          <p class="text-xl font-bold text-accretion mt-1">+226.0 <span class="text-xs text-slate-400 font-normal">ไร่</span></p>
+          <p class="text-[10px] text-slate-400 mt-1">การกัดเซาะ: 0.0 ไร่</p>
+        </div>
+
+        <div class="bg-slate-950/60 p-3.5 rounded-xl border border-slate-800">
+          <p class="text-[11px] text-slate-400">งบประมาณความคลาดเคลื่อน</p>
+          <p class="text-xl font-bold text-amber-300 mt-1">&plusmn;11.18 <span class="text-xs text-slate-400 font-normal">เมตร</span></p>
+          <p class="text-[10px] text-slate-400 mt-1">U_grid(10m) + U_coreg(3m) + U_thresh(4m)</p>
+        </div>
+      </div>
+
+      <!-- Detailed Transects Sample Table -->
+      <div class="bg-slate-950/60 rounded-xl border border-slate-800 p-4">
+        <h4 class="text-xs font-semibold text-white mb-2 flex items-center justify-between">
+          <span><i class="fa-solid fa-list-check mr-1 text-emerald-400"></i> ตัวอย่างผลการวัดรายแนวเส้น (Representative Transects Sample - 44 Transects)</span>
+          <span class="text-[10px] text-slate-400">Spacing: 50m | Positive = Seaward (อ่าวไทย)</span>
+        </h4>
+        <div class="overflow-x-auto max-h-48 overflow-y-auto">
+          <table class="w-full text-left text-xs font-mono">
+            <thead class="text-[10px] uppercase bg-slate-900/80 text-slate-400 sticky top-0">
+              <tr>
+                <th class="py-1.5 px-3">Transect ID</th>
+                <th class="py-1.5 px-3">พิกัด Y (UTM 47N)</th>
+                <th class="py-1.5 px-3">Waterline NSM</th>
+                <th class="py-1.5 px-3">Waterline EPR</th>
+                <th class="py-1.5 px-3">Mangrove NSM</th>
+                <th class="py-1.5 px-3">การจัดชั้นผลการประเมิน (Classification)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800/60 text-slate-300 text-[11px]" id="transectsTableBody">
+              <!-- Filled dynamically by app.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Seedling Registry & Technical Quality Assurance -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6" id="metadata-section">
+
+      <!-- Species & Planting Registration Table (7 cols) -->
+      <div class="lg:col-span-7 bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-2xl flex flex-col">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+          <div>
+            <h3 class="text-sm lg:text-base font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-book-bookmark text-amber-400"></i>
+              ทะเบียนคุมกล้าไม้ปลูกโครงการ (T-VER Premium MOC 1-VSD)
+            </h3>
+            <p class="text-xs text-slate-400">อ้างอิงข้อมูลสารบบกล้าไม้ วันที่เริ่ม/สิ้นสุดการปลูก และการบำรุงรักษา</p>
+          </div>
+          <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-2.5 py-1 rounded-full font-medium">Active</span>
+        </div>
+
+        <div class="overflow-x-auto mt-4">
+          <table class="w-full text-left text-xs">
+            <thead class="text-[11px] uppercase bg-slate-800/60 text-slate-400 border-b border-slate-800">
+              <tr>
+                <th class="py-2.5 px-3">รหัสแปลง</th>
+                <th class="py-2.5 px-3">เนื้อที่ (ไร่)</th>
+                <th class="py-2.5 px-3">ประเภทพื้นที่</th>
+                <th class="py-2.5 px-3">ชนิดกล้าไม้หลัก</th>
+                <th class="py-2.5 px-3 text-right">จำนวนปลูก (ต้น)</th>
+                <th class="py-2.5 px-3 text-center">วันที่เสร็จสิ้น</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800 text-slate-300">
+              <tr class="hover:bg-slate-800/30 transition">
+                <td class="py-3 px-3 font-semibold text-white">22-VSD</td>
+                <td class="py-3 px-3">300.64</td>
+                <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800/50">พื้นที่เลนงอก</span></td>
+                <td class="py-3 px-3">โกงกางใบใหญ่ (200k), เล็ก (10k), แสมขาว (3.7k)</td>
+                <td class="py-3 px-3 font-mono text-right font-medium text-white">213,757</td>
+                <td class="py-3 px-3 text-center text-slate-400">29 พ.ค. 2566</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30 transition">
+                <td class="py-3 px-3 font-semibold text-white">23-VSD</td>
+                <td class="py-3 px-3">200.12</td>
+                <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800/50">พื้นที่เลนงอก</span></td>
+                <td class="py-3 px-3">โกงกางใบใหญ่ (130k), เล็ก (10k), แสมขาว (2.3k)</td>
+                <td class="py-3 px-3 font-mono text-right font-medium text-white">142,288</td>
+                <td class="py-3 px-3 text-center text-slate-400">29 พ.ค. 2566</td>
+              </tr>
+              <tr class="bg-slate-800/40 font-semibold text-white">
+                <td class="py-3 px-3">รวมทั้งโครงการ</td>
+                <td class="py-3 px-3 text-emerald-400">500.76</td>
+                <td class="py-3 px-3">พื้นที่เลนงอก</td>
+                <td class="py-3 px-3 text-slate-300">รวม 3 ชนิดพันธุ์หลัก + เสริมซ่อมบำรุง</td>
+                <td class="py-3 px-3 font-mono text-right text-mangrove-300">356,045</td>
+                <td class="py-3 px-3 text-center text-slate-300">-</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-4 p-3 bg-slate-950/60 rounded-xl border border-slate-800/80 text-xs text-slate-300 space-y-1">
+          <p class="font-medium text-sky-300 flex items-center gap-1.5">
+            <i class="fa-solid fa-circle-check"></i> บันทึกการปลูกเสริมและซ่อมบำรุงแปลง 22-VSD:
+          </p>
+          <p class="text-slate-400 text-[11px]">
+            • วันที่ 7 ก.ค. 2569: ปลูกเสริมโกงกางใบใหญ่ (ฝัก) จำนวน 7,104 ฝัก เพื่อเพิ่มความหนาแน่นบริเวณร่องเลน<br>
+            • วันที่ 20 ก.ค. 2569: ปลูกเสริมโกงกางใบใหญ่ (ฝัก) จำนวน 7,104 ฝัก เพื่อเสริมแนวชะลอคลื่นชายฝั่ง
+          </p>
+        </div>
+      </div>
+
+      <!-- Skill Technical Disclosure & Metadata (5 cols) -->
+      <div class="lg:col-span-5 bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-2xl flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+            <h3 class="text-sm lg:text-base font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-shield-halved text-sky-400"></i>
+              ข้อกำหนดทางเทคนิค (Skills Compliance)
+            </h3>
+            <span class="text-[10px] font-mono bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700">Dual-Skill Standards</span>
+          </div>
+
+          <div class="mt-3 space-y-2.5 text-xs text-slate-300">
+            <div class="flex items-start gap-2">
+              <i class="fa-solid fa-check text-emerald-400 mt-0.5"></i>
+              <div>
+                <strong class="text-white">การแยก Quantitative Analysis ออกจาก Super-Resolution:</strong>
+                <p class="text-[11px] text-slate-400">เป็นไปตามกฎข้อ 1 ของ Coastal Skill: ตัวเลขการเปลี่ยนแปลงชายฝั่งคำนวณจาก Sentinel-2 Native 10m ส่วน 2.5m SR ใช้เฉพาะเพื่อการสังเกตการณ์เชิงสายตา (Visual Layer)</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-2">
+              <i class="fa-solid fa-check text-emerald-400 mt-0.5"></i>
+              <div>
+                <strong class="text-white">การควบคุม Contrast (Display Stretch):</strong>
+                <p class="text-[11px] text-slate-400">ใช้ percentile limits 1% - 99% จาก Native ชุดเดียวกันในการแสดงผลทั้งสองฝั่ง เพื่อความเที่ยงตรงโดยไม่มี contrast bias</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-2">
+              <i class="fa-solid fa-check text-emerald-400 mt-0.5"></i>
+              <div>
+                <strong class="text-white">การควบคุมและคำนวณปัจจัยน้ำขึ้นน้ำลง (Tide & Season Matching):</strong>
+                <p class="text-[11px] text-slate-400">
+                  • <strong>Overpass Time Matching:</strong> ใช้ภาพ Sentinel-2 วงโคจรสัมพันธ์กับดวงอาทิตย์ (Sun-synchronous) ที่บินผ่าน อ.ท่าศาลา เวลาเดิมสม่ำเสมอ (~10:35 น. ท้องถิ่น)<br>
+                  • <strong>Calendar Week Matching:</strong> คัดเลือกเฉพาะสัปดาห์แรกของเดือนเมษายน (5-6 เม.ย.) ข้ามปี 2566, 2567, 2569 เพื่อขจัด seasonal phenology และ monsoonal wind setup<br>
+                  • <strong>Decoupled Indicators:</strong> แยกตัวชี้วัด Waterline (ระบุสถานะ Apparent Seaward Movement พร้อมงบประมาณความคลาดเคลื่อน &plusmn;11.18 ม.) ออกจาก Mangrove Edge Advance Proxy (+635.45 ม.) ซึ่งเป็นแนวต้นไม้จริงที่ไม่ขึ้นกับระดับน้ำขึ้นน้ำลงรายชั่วโมง<br>
+                  • <strong>No Guesswork Slope:</strong> ปฏิบัติตามมาตรฐาน Phase 4 ของ Skill โดยไม่ใช้สูตรสมมุติตัวเลขความลาดชัน (Slope) กับหาดเลนงอกเพื่อป้องกัน pseudo-correction error
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-2">
+              <i class="fa-solid fa-check text-emerald-400 mt-0.5"></i>
+              <div>
+                <strong class="text-white">พิกัดและ Footprint:</strong>
+                <p class="text-[11px] text-slate-400">UTM Zone 47N (EPSG:32647) / WGS84 ครอบคลุมพิกัดแปลงจริงโดยไม่มี Missing Tile</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-500 font-mono">
+          <span>Pipelines: OpenSR LDSR-S2 + DSAS Analytics</span>
+          <span>Status: Validated & Ready</span>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="bg-[#050b13] border-t border-slate-800/80 py-4 px-4 lg:px-8 mt-auto text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+      <p>© 2026 ระบบสารสนเทศภูมิศาสตร์และการติดตามการกัดเซาะชายฝั่ง จ.นครศรีธรรมราช • โครงการฟื้นฟูป่าชายเลนเพื่อคาร์บอนเครดิต</p>
+      <p class="flex items-center gap-2">
+        <span>Sentinel-2 L2A STAC API</span> • 
+        <span>OpenSR Model 4x</span> • 
+        <span>Leaflet GIS & OpenStreetMap</span>
+      </p>
+    </div>
+  </footer>
+
+  <!-- App Logic -->
+  <script src="src/app.js"></script>
+</body>
+</html>
