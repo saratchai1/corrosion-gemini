@@ -1,0 +1,21 @@
+{
+  "title": "ภาพถ่ายโดรนความละเอียดสูง เม.ย. 2569 (UAV Drone Orthomosaic April 2026)",
+  "date": "2026-04-05",
+  "file": "drone_2026_04_hd.webp",
+  "leaflet_bounds": [
+    [
+      8.582890337166464,
+      99.99030342802266
+    ],
+    [
+      8.602868743932794,
+      100.01715564698156
+    ]
+  ],
+  "crs": "EPSG:32647",
+  "original_resolution_m": 0.0269,
+  "original_dimensions": [
+    109438,
+    81682
+  ]
+}

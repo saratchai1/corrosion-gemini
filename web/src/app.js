@@ -13,8 +13,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   let currentPlot = 'combined-vsd';
   let currentMode = 'rgb'; // 'rgb', 'cir', 'ndvi'
   let leftDate = '2023-04-06';
-  let rightDate = 'drone-ortho'; // Default to user's drone image for high impact
-  let singleDate = 'drone-ortho';
+  let rightDate = 'drone-2026'; // Default to newest April 2026 drone image
+  let singleDate = 'drone-2026';
   let temporalQuality = '2p5m'; // '2p5m' or '10m'
   let currentBasemap = 'osm'; // 'osm' or 'satellite'
   let showBoundaries = true;
@@ -28,10 +28,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     [8.610315197158018, 100.02113228300021] // North-East
   ];
 
-  // Exact geographic bounding box for high-resolution UAV Drone Orthomosaic (EPSG:32647 -> WGS84)
+  // Exact geographic bounding box for high-resolution UAV Drone Orthomosaic 2024 (EPSG:32647 -> WGS84)
   const droneBounds = [
     [8.585914525682421, 99.99048684871822], // South-West
     [8.60302831899287, 100.01235991418478]  // North-East
+  ];
+
+  // Exact geographic bounding box for high-resolution UAV Drone Orthomosaic April 2026 (EPSG:32647 -> WGS84)
+  const drone2026Bounds = [
+    [8.582890337166464, 99.99030342802266], // South-West
+    [8.602868743932794, 100.01715564698156]  // North-East
   ];
 
   const initialCenter = [8.59478, 100.00268];
@@ -78,7 +84,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     '2023-04-06': 'ก่อนเริ่มปลูก (เม.ย. 2566)',
     '2024-04-05': 'หลังปลูก 1 ปี (เม.ย. 2567)',
     '2026-04-05': 'หลังปลูก 3 ปี (เม.ย. 2569)',
-    'drone-ortho': '🛸 ภาพถ่ายโดรน UAV (ความละเอียด 2.6 cm/px)'
+    'drone-2024': '🛸 ภาพโดรนเดิม มิ.ย. 2567 (UAV 2024)',
+    'drone-2026': '🛸 ภาพโดรนใหม่ เม.ย. 2569 (UAV ล่าสุด)',
+    'drone-ortho': '🛸 ภาพโดรนใหม่ เม.ย. 2569 (UAV ล่าสุด)'
   };
 
   const sceneMap = {
@@ -117,9 +125,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // High-Resolution Overlays on both maps
   const initialSentinelUrl = 'public/data/superres25/combined-vsd-2023-04-06-2p5m.webp';
-  const initialDroneUrl = 'public/data/drone/drone_ortho_hd.webp';
+  const initialDroneUrl = 'public/data/drone/drone_2026_04_hd.webp';
   let overlayLeft = L.imageOverlay(initialSentinelUrl, sentinelBounds, { opacity: 1.0 }).addTo(mapLeft);
-  let overlayRight = L.imageOverlay(initialDroneUrl, droneBounds, { opacity: 1.0 }).addTo(mapRight);
+  let overlayRight = L.imageOverlay(initialDroneUrl, drone2026Bounds, { opacity: 1.0 }).addTo(mapRight);
 
   // Vector Plot Boundary Layers on both maps
   let plotLayerLeft = null;
@@ -195,8 +203,31 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (name.includes('23-VSD')) plot23Bounds = layer.getBounds();
     });
 
-    // Fit map to drone bounds initially (or plot bounds)
-    mapLeft.fitBounds(droneBounds, { padding: [30, 30] });
+    // Fit map to April 2026 drone bounds initially
+    mapLeft.fitBounds(drone2026Bounds, { padding: [30, 30] });
+  }
+
+  function resolveLayer(key, modePrefix) {
+    if (key === 'drone-2026') {
+      return {
+        url: 'public/data/drone/drone_2026_04_hd.webp',
+        bounds: drone2026Bounds || droneBounds,
+        badge: '🛸 ภาพโดรนใหม่ เม.ย. 2569 (UAV ล่าสุด)'
+      };
+    }
+    if (key === 'drone-2024' || key === 'drone-ortho') {
+      return {
+        url: 'public/data/drone/drone_ortho_hd.webp',
+        bounds: droneBounds,
+        badge: '🛸 ภาพโดรนเดิม มิ.ย. 2567 (UAV 2024)'
+      };
+    }
+    const qLabel = temporalQuality === '2p5m' ? '4x SR (2.5m)' : 'Native (10m)';
+    return {
+      url: `public/data/superres25/combined-vsd-${key}-${modePrefix}${temporalQuality}.webp`,
+      bounds: sentinelBounds,
+      badge: `${dateLabels[key] || key} [${qLabel}]`
+    };
   }
 
   // 4. Update Overlays based on User Selection (Sentinel-2 vs UAV Drone)
@@ -206,43 +237,31 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (currentMode === 'ndvi') modePrefix = 'ndvi-';
 
     if (comparatorMode === 'temporal') {
-      // Left side configuration
-      if (leftDate === 'drone-ortho') {
-        overlayLeft.setUrl('public/data/drone/drone_ortho_hd.webp');
-        overlayLeft.setBounds(droneBounds);
-        leftBadgeText.textContent = dateLabels['drone-ortho'];
-      } else {
-        overlayLeft.setUrl(`public/data/superres25/combined-vsd-${leftDate}-${modePrefix}${temporalQuality}.webp`);
-        overlayLeft.setBounds(sentinelBounds);
-        const qLabel = temporalQuality === '2p5m' ? '4x SR (2.5m)' : 'Native (10m)';
-        leftBadgeText.textContent = `${dateLabels[leftDate] || leftDate} [${qLabel}]`;
-      }
+      const leftConf = resolveLayer(leftDate, modePrefix);
+      const rightConf = resolveLayer(rightDate, modePrefix);
 
-      // Right side configuration
-      if (rightDate === 'drone-ortho') {
-        overlayRight.setUrl('public/data/drone/drone_ortho_hd.webp');
-        overlayRight.setBounds(droneBounds);
-        rightBadgeText.textContent = dateLabels['drone-ortho'];
-      } else {
-        overlayRight.setUrl(`public/data/superres25/combined-vsd-${rightDate}-${modePrefix}${temporalQuality}.webp`);
-        overlayRight.setBounds(sentinelBounds);
-        const qLabel = temporalQuality === '2p5m' ? '4x SR (2.5m)' : 'Native (10m)';
-        rightBadgeText.textContent = `${dateLabels[rightDate] || rightDate} [${qLabel}]`;
-      }
+      overlayLeft.setUrl(leftConf.url);
+      overlayLeft.setBounds(leftConf.bounds);
+      leftBadgeText.textContent = leftConf.badge;
 
-      currentSceneTag.textContent = `เทียบ: ${leftDate === 'drone-ortho' ? 'ภาพโดรน' : leftDate} vs ${rightDate === 'drone-ortho' ? 'ภาพถ่ายโดรนความละเอียดสูง (2.6 cm)' : rightDate}`;
+      overlayRight.setUrl(rightConf.url);
+      overlayRight.setBounds(rightConf.bounds);
+      rightBadgeText.textContent = rightConf.badge;
+
+      currentSceneTag.textContent = `เทียบ: ${leftConf.badge} vs ${rightConf.badge}`;
     } else {
       // Resolution Mode: Compare Sentinel vs Drone Ortho
-      if (singleDate === 'drone-ortho') {
+      if (singleDate.startsWith('drone')) {
+        const droneConf = resolveLayer(singleDate, modePrefix);
         overlayLeft.setUrl(`public/data/superres25/combined-vsd-2026-04-05-${modePrefix}2p5m.webp`);
         overlayLeft.setBounds(sentinelBounds);
         leftBadgeText.textContent = 'ดาวเทียม Sentinel-2 (2.5m SR)';
 
-        overlayRight.setUrl('public/data/drone/drone_ortho_hd.webp');
-        overlayRight.setBounds(droneBounds);
-        rightBadgeText.textContent = '🛸 ภาพถ่ายโดรน UAV (2.6 cm/px)';
+        overlayRight.setUrl(droneConf.url);
+        overlayRight.setBounds(droneConf.bounds);
+        rightBadgeText.textContent = droneConf.badge;
 
-        currentSceneTag.textContent = 'เปรียบเทียบ: ดาวเทียม 2.5m vs ภาพถ่ายโดรนจริง 2.6cm';
+        currentSceneTag.textContent = `เทียบ: ดาวเทียม 2.5m vs ${droneConf.badge}`;
       } else {
         overlayLeft.setUrl(`public/data/superres25/combined-vsd-${singleDate}-${modePrefix}10m.webp`);
         overlayLeft.setBounds(sentinelBounds);
@@ -398,14 +417,14 @@ document.addEventListener('DOMContentLoaded', async () => {
   zoomOutBtn.addEventListener('click', () => mapLeft.zoomOut());
   zoomResetBtn.addEventListener('click', () => {
     setDividerPositionInstant(50);
-    mapLeft.fitBounds(droneBounds, { padding: [30, 30] });
+    mapLeft.fitBounds(drone2026Bounds, { padding: [30, 30] });
   });
 
   // 9. Plot Selection & Camera Flying
   plotSelector.addEventListener('change', (e) => {
     currentPlot = e.target.value;
     if (currentPlot === 'drone-area') {
-      mapLeft.fitBounds(droneBounds, { padding: [30, 30] });
+      mapLeft.fitBounds(drone2026Bounds, { padding: [30, 30] });
     } else if (currentPlot === '22-vsd' && plot22Bounds) {
       mapLeft.fitBounds(plot22Bounds, { padding: [30, 30] });
     } else if (currentPlot === '23-vsd' && plot23Bounds) {
@@ -525,7 +544,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }).addTo(mapBottom);
 
   // Drone Orthomosaic Layer on Bottom Map
-  const bottomDroneOverlay = L.imageOverlay('public/data/drone/drone_ortho_hd.webp', droneBounds, {
+  const bottomDroneOverlay = L.imageOverlay('public/data/drone/drone_2026_04_hd.webp', drone2026Bounds, {
     opacity: 0.95
   }).addTo(mapBottom);
 
@@ -583,7 +602,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }).addTo(mapBottom);
 
     recenterMapBtn.addEventListener('click', () => {
-      mapBottom.fitBounds(droneBounds, { padding: [20, 20] });
+      mapBottom.fitBounds(drone2026Bounds, { padding: [20, 20] });
     });
   }
 
