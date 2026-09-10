@@ -1,0 +1,17 @@
+{
+  "2023-04-11": {
+    "valid_fraction": 1.0,
+    "mean_ndvi": 0.39436715841293335,
+    "mangrove_fraction": 0.6530287000868056
+  },
+  "2024-03-19": {
+    "valid_fraction": 1.0,
+    "mean_ndvi": 0.5336920619010925,
+    "mangrove_fraction": 0.6524251302083334
+  },
+  "2026-03-21": {
+    "valid_fraction": 1.0,
+    "mean_ndvi": 0.8263612985610962,
+    "mangrove_fraction": 0.6544731987847222
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "project": "โครงการปลูกป่าชายเลนเพื่อประโยชน์จากคาร์บอนเครดิต จ.พังงา",
+  "tver_type": "Standard กลุ่ม 2 VSD",
+  "province": "พังงา",
+  "location": "อ่าวพังงา (เกาะไม้ไผ่ - เกาะปันหยี) อ.เมือง จ.พังงา",
+  "plots_covered": [
+    "40-VSD",
+    "41-VSD",
+    "42-VSD"
+  ],
+  "total_contract_rai": 699.49,
+  "total_pdd_rai": 679.26,
+  "total_seedlings_planted": 235539,
+  "monitoring_period": "2023-04-11 to 2026-03-21 (3 ปี)",
+  "baseline_scene": "S2B_47PMK_20230411_0_L2A",
+  "year1_scene": "S2B_47PMK_20240319_0_L2A",
+  "year3_scene": "S2C_47PMK_20260321_0_L2A",
+  "coastal_dynamics": {
+    "nsm_waterline_mean_m": 0.0,
+    "nsm_waterline_max_m": 0.0,
+    "nsm_waterline_min_m": 0.0,
+    "epr_waterline_m_per_year": 0.0,
+    "mangrove_edge_advance_mean_m": 1.97,
+    "mangrove_edge_epr_m_per_year": 0.66,
+    "net_mudflat_accretion_rai": 36.1,
+    "coastal_erosion_rai": 0.0,
+    "mangrove_canopy_expansion_rai": 13.3,
+    "uncertainty_u_total_m": 11.18,
+    "total_transects_evaluated": 61
+  },
+  "vegetation_health": {
+    "mean_ndvi_baseline_2023": 0.39436715841293335,
+    "mean_ndvi_year1_2024": 0.5336920619010925,
+    "mean_ndvi_year3_2026": 0.3148365616798401
+  }
+}

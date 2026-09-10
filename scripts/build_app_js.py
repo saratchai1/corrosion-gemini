@@ -1,4 +1,6 @@
-// Multi-Province JavaScript Application for Coastal Erosion & Accretion Monitoring
+import sys
+
+code = '''// Multi-Province JavaScript Application for Coastal Erosion & Accretion Monitoring
 // Supporting: Nakhon Si Thammarat (ท่าศาลา) & Phang Nga (อ่าวพังงา)
 // Compliant with sentinel-2-super-resolution and coastal-erosion-accretion skills
 // Features: Dual-Map Swipe Slider, Drone Orthomosaics, GeoJSON Plots, DSAS Transects, Dynamic KPIs & Multi-Province Switching
@@ -1193,3 +1195,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Initial Load
   await loadProvinceData(activeProvinceKey);
 });
+'''
+
+with open('web/src/app.js', 'w', encoding='utf-8') as f:
+    f.write(code)
+print("Successfully generated web/src/app.js")

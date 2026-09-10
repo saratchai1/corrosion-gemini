@@ -1,0 +1,208 @@
+{
+  "project_name": "โครงการปลูกป่าชายเลนเพื่อประโยชน์จากคาร์บอนเครดิต จ.พังงา",
+  "tver_type": "Standard กลุ่ม 2 VSD",
+  "province": "พังงา",
+  "total_area_contract_rai": 699.49,
+  "total_area_pdd_rai": 679.26,
+  "total_seedlings": 235539,
+  "plots": [
+    {
+      "plot_id": "40-vsd",
+      "label": "แปลง 40-VSD",
+      "village": "เกาะไม้ไผ่",
+      "subdistrict": "เกาะปันหยี",
+      "district": "เมือง",
+      "province": "พังงา",
+      "area_rai": 289.11,
+      "pdd_rai": 277.33,
+      "land_type": "แปลงปลูกเสริมและปรับปรุงสภาพป่าชายเลน",
+      "planting_finish_date": "2024-11-20",
+      "seedlings": [
+        {
+          "species_thai": "โกงกางใบใหญ่",
+          "species_sci": "Rhizophora mucronata",
+          "count": 50000,
+          "type": "ฝัก/ต้น"
+        },
+        {
+          "species_thai": "โกงกางใบเล็ก",
+          "species_sci": "Rhizophora apiculata",
+          "count": 30000,
+          "type": "ฝัก/ต้น"
+        },
+        {
+          "species_thai": "ถั่วขาว",
+          "species_sci": "Bruguiera cylindrica",
+          "count": 1500,
+          "type": "ต้น"
+        },
+        {
+          "species_thai": "โปรงแดง",
+          "species_sci": "Ceriops tagal",
+          "count": 1500,
+          "type": "ฝัก"
+        },
+        {
+          "species_thai": "จิกทะเล",
+          "species_sci": "Barringtonia asiatica",
+          "count": 199,
+          "type": "ต้น"
+        }
+      ],
+      "maintenance_replanting": [
+        {
+          "date": "2026-04-11",
+          "species_thai": "โกงกางใบใหญ่",
+          "count": 758,
+          "type": "ฝัก"
+        },
+        {
+          "date": "2026-06-20",
+          "species_thai": "โกงกางใบใหญ่",
+          "count": 758,
+          "type": "ฝัก"
+        }
+      ],
+      "total_planted_initial": 83199,
+      "centroid": {
+        "lat": 8.3518,
+        "lon": 98.5479
+      }
+    },
+    {
+      "plot_id": "41-vsd",
+      "label": "แปลง 41-VSD",
+      "village": "เกาะไม้ไผ่",
+      "subdistrict": "เกาะปันหยี",
+      "district": "เมือง",
+      "province": "พังงา",
+      "area_rai": 181.5,
+      "pdd_rai": 178.92,
+      "land_type": "แปลงปลูกเสริมและปรับปรุงสภาพป่าชายเลน",
+      "planting_finish_date": "2024-11-25",
+      "seedlings": [
+        {
+          "species_thai": "โกงกางใบใหญ่",
+          "species_sci": "Rhizophora mucronata",
+          "count": 15000,
+          "type": "ฝัก/ต้น"
+        },
+        {
+          "species_thai": "โกงกางใบเล็ก",
+          "species_sci": "Rhizophora apiculata",
+          "count": 15000,
+          "type": "ฝัก/ต้น"
+        },
+        {
+          "species_thai": "ถั่วขาว",
+          "species_sci": "Bruguiera cylindrica",
+          "count": 10000,
+          "type": "ต้น"
+        },
+        {
+          "species_thai": "โปรงแดง",
+          "species_sci": "Ceriops tagal",
+          "count": 8000,
+          "type": "ฝัก"
+        },
+        {
+          "species_thai": "จิกทะเล",
+          "species_sci": "Barringtonia asiatica",
+          "count": 5676,
+          "type": "ต้น"
+        }
+      ],
+      "maintenance_replanting": [
+        {
+          "date": "2026-03-24",
+          "species_thai": "ถั่วขาว",
+          "count": 89,
+          "type": "ต้น"
+        },
+        {
+          "date": "2026-06-21",
+          "species_thai": "ถั่วขาว",
+          "count": 89,
+          "type": "ต้น"
+        }
+      ],
+      "total_planted_initial": 53676,
+      "centroid": {
+        "lat": 8.3576,
+        "lon": 98.5371
+      }
+    },
+    {
+      "plot_id": "42-vsd",
+      "label": "แปลง 42-VSD",
+      "village": "เกาะไม้ไผ่",
+      "subdistrict": "เกาะปันหยี",
+      "district": "เมือง",
+      "province": "พังงา",
+      "area_rai": 228.88,
+      "pdd_rai": 223.01,
+      "land_type": "แปลงปลูกเสริมและปรับปรุงสภาพป่าชายเลน",
+      "planting_finish_date": "2024-11-30",
+      "seedlings": [
+        {
+          "species_thai": "โกงกางใบใหญ่",
+          "species_sci": "Rhizophora mucronata",
+          "count": 50000,
+          "type": "ฝัก/ต้น"
+        },
+        {
+          "species_thai": "โกงกางใบเล็ก",
+          "species_sci": "Rhizophora apiculata",
+          "count": 31000,
+          "type": "ฝัก/ต้น"
+        },
+        {
+          "species_thai": "โปรงแดง",
+          "species_sci": "Ceriops tagal",
+          "count": 5000,
+          "type": "ฝัก"
+        },
+        {
+          "species_thai": "ถั่วขาว",
+          "species_sci": "Bruguiera cylindrica",
+          "count": 4000,
+          "type": "ต้น"
+        },
+        {
+          "species_thai": "จิกทะเล",
+          "species_sci": "Barringtonia asiatica",
+          "count": 8664,
+          "type": "ต้น"
+        }
+      ],
+      "maintenance_replanting": [],
+      "total_planted_initial": 98664,
+      "centroid": {
+        "lat": 8.3577,
+        "lon": 98.5335
+      }
+    }
+  ],
+  "species_summary": {
+    "โกงกางใบใหญ่": {
+      "count": 115000,
+      "percentage": 48.82
+    },
+    "โกงกางใบเล็ก": {
+      "count": 76000,
+      "percentage": 32.27
+    },
+    "ถั่วขาว": {
+      "count": 15500,
+      "percentage": 6.58
+    },
+    "จิกทะเล": {
+      "count": 14539,
+      "percentage": 6.17
+    },
+    "โปรงแดง": {
+      "count": 14500,
+      "percentage": 6.16
+    }
+  }
+}

@@ -36,6 +36,9 @@ ENV/
 
 # Very large raw drone imagery (>100MB exceeds standard GitHub limit)
 # Note: Web-optimized high-definition orthomosaic (WebP) is tracked in web/public/data/drone/
+data/drone/**/*.tif
+data/drone/**/*.part
+data/drone/**/*.tif*
 data/drone/*.tif
 data/drone/*.part
 data/drone/*.tif*
